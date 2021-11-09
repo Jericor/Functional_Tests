@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="SeleniumTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-11-09T23:02:56" hostname="DESKTOP-PENQDT8" time="13.84">
+  <properties/>
+  <testcase name="blankSearch()" classname="SeleniumTest" time="13.84"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+1636498977923	geckodriver	INFO	Listening on 127.0.0.1:50231
+1636498978771	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "64935" "-no-remote" "-profile" "C:\\Users\\Jericor\\AppData\\Local\\Temp\\rust_mozprofile1Lfg6m"
+1636498979622	Marionette	INFO	Marionette enabled
+[GFX1-]: DoesD3D11TextureSharingWork_ColorMismatch
+[GFX1-]: DoesD3D11TextureSharingWork_ColorMismatch
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Jericor\\AppData\\Local\\Temp\\rust_mozprofile1Lfg6m\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:64935/devtools/browser/228c1d78-a537-4d9e-8cb0-d87a6cec6307
+1636498985035	Marionette	INFO	Listening on port 58887
+1636498985168	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+nov. 09, 2021 8:03:05 P. M. org.openqa.selenium.remote.ProtocolHandshake createSession
+INFO: Detected dialect: W3C
+]]></system-err>
+</testsuite>
