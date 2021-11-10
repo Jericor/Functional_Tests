@@ -121,13 +121,14 @@ public class SeleniumTest {
         }
     }
 
-    // Testeo de iniciar el proceso de compra
+    // Testeo para cambiar la talla a M 
     @Test
-    public void startBuyProcess() {
+    public void changeSize() {
         WebDriver driver = new FirefoxDriver();
         try{
-            //driver.get("http://automationpractice.com/index.php?controller=order");
-            //WebElement init = driver.findElement(By.class(""));
+            driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse+&results=1");
+            Select change = new Select(driver.findElement(By.id("group_1")));
+            change.selectByValue("2");
 
         }
         finally {
