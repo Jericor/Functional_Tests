@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
+
 public class SeleniumTest {
 
     /*
@@ -100,6 +101,9 @@ public class SeleniumTest {
             WebElement searchbox = driver.findElement(By.id("search_query_top"));
             searchbox.sendKeys("Blouse");
             searchbox.sendKeys(Keys.ENTER);
+            driver.get("http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=blouse&submit_search=");
+            WebElement image = driver.findElement(By.linkText("Blouse"));
+            image.click();
             driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
             WebElement add = driver.findElement(By.id("add_to_cart"));
             add.click();
@@ -109,6 +113,7 @@ public class SeleniumTest {
             //driver.quit();
         }
     }
+    
 
     // Testeo de eliminar un objeto del carrito de compras
     @Test
@@ -122,6 +127,8 @@ public class SeleniumTest {
             driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
             WebElement add = driver.findElement(By.id("add_to_cart"));
             add.click();
+            WebElement checkout = driver.findElement(By.className("btn btn-default button button-medium"));
+            checkout.click();
             driver.get("http://automationpractice.com/index.php?controller=order");
             WebElement delete = driver.findElement(By.id("2_7_0_598222"));
             delete.click();
@@ -141,6 +148,9 @@ public class SeleniumTest {
             WebElement searchbox = driver.findElement(By.id("search_query_top"));
             searchbox.sendKeys("Blouse");
             searchbox.sendKeys(Keys.ENTER);
+            driver.get("http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=blouse&submit_search=");
+            WebElement image = driver.findElement(By.linkText("Blouse"));
+            image.click();
             driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse+&results=1");
             Select change = new Select(driver.findElement(By.id("group_1")));
             change.selectByValue("2");
@@ -235,7 +245,7 @@ public class SeleniumTest {
             //driver.quit();
         }
     } 
-  
+   
 
    
 
