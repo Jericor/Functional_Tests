@@ -96,6 +96,9 @@ public class SeleniumTest {
     public void addToCart() {
         WebDriver driver = new FirefoxDriver();
         try{
+            driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
+            WebElement add = driver.findElement(By.id("add_to_cart"));
+            add.submit();
 
         }
         finally {
@@ -108,6 +111,9 @@ public class SeleniumTest {
     public void deleteFromCart() {
         WebDriver driver = new FirefoxDriver();
         try{
+            driver.get("http://automationpractice.com/index.php?controller=order");
+            WebElement delete = driver.findElement(By.id("2_7_0_598222"));
+            delete.submit();
 
         }
         finally {
@@ -120,6 +126,8 @@ public class SeleniumTest {
     public void startBuyProcess() {
         WebDriver driver = new FirefoxDriver();
         try{
+            //driver.get("http://automationpractice.com/index.php?controller=order");
+            //WebElement init = driver.findElement(By.class(""));
 
         }
         finally {
