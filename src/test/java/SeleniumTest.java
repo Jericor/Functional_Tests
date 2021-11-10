@@ -98,7 +98,7 @@ public class SeleniumTest {
         try{
             driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
             WebElement add = driver.findElement(By.id("add_to_cart"));
-            add.submit();
+            add.click();
 
         }
         finally {
@@ -113,7 +113,7 @@ public class SeleniumTest {
         try{
             driver.get("http://automationpractice.com/index.php?controller=order");
             WebElement delete = driver.findElement(By.id("2_7_0_598222"));
-            delete.submit();
+            delete.click();
 
         }
         finally {
