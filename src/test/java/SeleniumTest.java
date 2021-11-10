@@ -96,6 +96,10 @@ public class SeleniumTest {
     public void addToCart() {
         WebDriver driver = new FirefoxDriver();
         try{
+            driver.get("http://automationpractice.com/index.php");
+            WebElement searchbox = driver.findElement(By.id("search_query_top"));
+            searchbox.sendKeys("Blouse");
+            searchbox.sendKeys(Keys.ENTER);
             driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
             WebElement add = driver.findElement(By.id("add_to_cart"));
             add.click();
@@ -219,7 +223,9 @@ public class SeleniumTest {
         finally {
             //driver.quit();
         }
-    }
+    } 
+
+   
 
 
 }
