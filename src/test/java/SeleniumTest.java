@@ -115,6 +115,13 @@ public class SeleniumTest {
     public void deleteFromCart() {
         WebDriver driver = new FirefoxDriver();
         try{
+            driver.get("http://automationpractice.com/index.php");
+            WebElement searchbox = driver.findElement(By.id("search_query_top"));
+            searchbox.sendKeys("Blouse");
+            searchbox.sendKeys(Keys.ENTER);
+            driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
+            WebElement add = driver.findElement(By.id("add_to_cart"));
+            add.click();
             driver.get("http://automationpractice.com/index.php?controller=order");
             WebElement delete = driver.findElement(By.id("2_7_0_598222"));
             delete.click();
@@ -130,6 +137,10 @@ public class SeleniumTest {
     public void changeSize() {
         WebDriver driver = new FirefoxDriver();
         try{
+            driver.get("http://automationpractice.com/index.php");
+            WebElement searchbox = driver.findElement(By.id("search_query_top"));
+            searchbox.sendKeys("Blouse");
+            searchbox.sendKeys(Keys.ENTER);
             driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse+&results=1");
             Select change = new Select(driver.findElement(By.id("group_1")));
             change.selectByValue("2");
@@ -224,6 +235,7 @@ public class SeleniumTest {
             //driver.quit();
         }
     } 
+  
 
    
 
