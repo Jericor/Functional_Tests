@@ -140,6 +140,11 @@ public class SeleniumTest {
     public void sendProduct() {
         WebDriver driver = new FirefoxDriver();
         try{
+            driver.get("http://automationpractice.com/index.php?controller=order");
+            WebElement terms_license = driver.findElement(By.id("uniform.cgv"));
+            terms_license.click();
+            WebElement send = driver.findElement(By.name("processCarrier"));
+            send.click();
 
         }
         finally {
