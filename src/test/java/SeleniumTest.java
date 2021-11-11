@@ -48,8 +48,7 @@ public class SeleniumTest {
         }
     }
 
-    // Testeo de verificación fallida para creación de cuenta
-    // Razón: Correo no válido
+    // Testeo de verificación para creación de cuenta con campo no válido
     @Test
     @Order(1)
     public void failedVerification() {
@@ -58,7 +57,7 @@ public class SeleniumTest {
         // Se ingresa el mail de prueba
         WebElement email = driver.findElement(By.id("email_create"));
         email.sendKeys("mail.test.cl");
-        // Se hace click en ingresar
+        // Se hace click en crear cuenta
         WebElement button = driver.findElement(By.id("SubmitCreate"));
         button.click();
 
@@ -71,44 +70,54 @@ public class SeleniumTest {
     @Test
     @Order(2)
     public void verification() {
+        // Se dirige a la página de Log In
         driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+        // Se ingresa el mail de prueba
         WebElement email = driver.findElement(By.id("email_create"));
         email.sendKeys("mail@test.cl");
+        // Se hace click en crear cuenta
         WebElement button = driver.findElement(By.id("SubmitCreate"));
         button.click();
 
+        // Se verifica la redirección a la página de creación de cuenta
         String expected = "http://automationpractice.com/index.php?controller=authentication&back=my-account#account-creation";
         Boolean url = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.urlToBe(expected));
         Assertions.assertTrue(url);
         }
 
-    // Testeo de ingreso fallido al sistema
-    // Razón: Campos Vacíos
+    // Testeo de ingreso al sistema con campos vacíos
     @Test
     @Order(3)
     public void blankSignIn() {
+        // Se dirige a la página de Log In
         driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+        // Se presiona el botón de ingresar a la cuenta
         WebElement button = driver.findElement(By.id("SubmitLogin"));
         button.click();
 
+        // Se verifica el mensaje de error debido al campo vacío
         List<WebElement> message= driver.findElements(By.xpath("//*[contains(text(),'An email address required.')]"));
         Assertions.assertNotNull(message);
     }
-
 
     // Testeo de ingreso exitoso al sistema
     @Test
     @Order(4)
     public void signIn() {
+        // Se dirige a la página de Log In
         driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+        // Se ingresa el mail de prueba
         WebElement email = driver.findElement(By.id("email"));
         email.sendKeys("test@mail.cl");
+        // Se ingresa la contraseña de prueba
         WebElement password = driver.findElement(By.id("passwd"));
         password.sendKeys("fp30t");
+        // Se presiona el botón de ingresar a la cuenta
         WebElement button = driver.findElement(By.id("SubmitLogin"));
         button.click();
 
+        // Se verifica la redirección a la página del usuario
         String expected = "http://automationpractice.com/index.php?controller=my-account";
         Boolean url = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.urlToBe(expected));
@@ -176,19 +185,22 @@ public class SeleniumTest {
         send.click();
     }
 
-
     // Testeo de una busqueda vacía
     @Test
     @Order(9)
     public void blankSearch() {
+        // Se dirige a la página principal
         driver.get("http://automationpractice.com/index.php");
+        // Se presiona el botón de busqueda
         WebElement searchbox = driver.findElement(By.id("search_query_top"));
         searchbox.sendKeys(Keys.ENTER);
 
+        // Se verifica la redirección a la página de búsqueda
         String expected = "http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=&submit_search=";
         Boolean url = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.urlToBe(expected));
         Assertions.assertTrue(url);
+        // Se verifica el mensaje que indica busqueda vacía
         List<WebElement> message= driver.findElements(By.xpath("//*[contains(text(),'Please enter a search keyword')]"));
         Assertions.assertNotNull(message);
     }
@@ -197,15 +209,19 @@ public class SeleniumTest {
     @Test
     @Order(10)
     public void nonsenseSearch() {
+        // Se dirige a la página principal
         driver.get("http://automationpractice.com/index.php");
+        // Se realiza la búsqueda con la palabra "Pelota"
         WebElement searchbox = driver.findElement(By.id("search_query_top"));
         searchbox.sendKeys("Pelota");
         searchbox.sendKeys(Keys.ENTER);
 
+        // Se verifica la redirección a la página de búsqueda
         String expected = "http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=Pelota&submit_search=";
         Boolean url = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.urlToBe(expected));
         Assertions.assertTrue(url);
+        // Se vérifica el mensaje indicando que no se encontraron resultados
         List<WebElement> message= driver.findElements(By.xpath("//*[contains(text(),'No results were found for your search \"Pelota\"')]"));
         Assertions.assertNotNull(message);
     }
@@ -214,14 +230,19 @@ public class SeleniumTest {
     @Test
     @Order(11)
     public void blankCustomerMessage() {
+        // Se dirige a la página de contacto
         driver.get("http://automationpractice.com/index.php?controller=contact");
+        // Se selecciona el tema como servicio al cliente
         Select subject = new Select(driver.findElement(By.id("id_contact")));
         subject.selectByValue("2");
+        // Se ingresa el mail de prueba
         WebElement email = driver.findElement(By.id("email"));
         email.sendKeys("test@mail.cl");
+        // Se presiona el botón de enviar mensaje
         WebElement button = driver.findElement(By.id("submitMessage"));
         button.click();
 
+        // Se verifica el mensaje de error indicando que el mensaje no puede estar vacío
         List<WebElement> message= driver.findElements(By.xpath("//*[contains(text(),'The message cannot be blank.')]"));
         Assertions.assertNotNull(message);
     }
@@ -230,18 +251,23 @@ public class SeleniumTest {
     @Test
     @Order(12)
     public void customerMessage() {
+        // Se dirige a la pagina de contacto
         driver.get("http://automationpractice.com/index.php?controller=contact");
+        // Se selecciona el tema como servicio al cliente
         Select subject = new Select(driver.findElement(By.id("id_contact")));
         subject.selectByValue("2");
+        // Se ingresa el mail de prueba
         WebElement email = driver.findElement(By.id("email"));
         email.sendKeys("test@mail.cl");
+        // Se ingresa el mensaje de prueba
         WebElement message = driver.findElement(By.id("message"));
         message.sendKeys("test message");
+        // Se presiona el botón de enviar mensaje
         WebElement button = driver.findElement(By.id("submitMessage"));
         button.click();
 
+        // Se verifica el mensaje de envio correcto
         List<WebElement> notification= driver.findElements(By.xpath("//*[contains(text(),'Your message has been successfully sent to our team.')]"));
         Assertions.assertNotNull(notification);
     }
-
 }
