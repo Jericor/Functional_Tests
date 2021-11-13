@@ -143,18 +143,27 @@ public class SeleniumTest {
     // Testeo de eliminar un objeto del carrito de compras
     @Test
     @Order(6)
-    public void deleteFromCart() {
+    public void deleteToCart() {
+       WebDriver driver = new FirefoxDriver();
+        driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("test@mail.cl");
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("fp30t");
+        WebElement button = driver.findElement(By.id("SubmitLogin"));
+        button.click();
         driver.get("http://automationpractice.com/index.php");
         WebElement searchbox = driver.findElement(By.id("search_query_top"));
         searchbox.sendKeys("Blouse");
         searchbox.sendKeys(Keys.ENTER);
+        driver.get("http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=blouse&submit_search=");
+        WebElement image = driver.findElement(By.linkText("Blouse"));
+        image.click();
         driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
         WebElement add = driver.findElement(By.id("add_to_cart"));
         add.click();
-        WebElement checkout = driver.findElement(By.className("btn btn-default button button-medium"));
-        checkout.click();
         driver.get("http://automationpractice.com/index.php?controller=order");
-        WebElement delete = driver.findElement(By.id("2_7_0_598222"));
+        WebElement delete= driver.findElement(By.className("cart_quantity_delete"));
         delete.click();
     }
 
@@ -177,12 +186,31 @@ public class SeleniumTest {
     // Testeo de envío del producto y aceptación de los terminos y condiciones
     @Test
     @Order(8)
-    public void sendProduct() {
+    public void directionShop() {
+        WebDriver driver = new FirefoxDriver();
+        driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("test@mail.cl");
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("fp30t");
+        WebElement button = driver.findElement(By.id("SubmitLogin"));
+        button.click();
+        driver.get("http://automationpractice.com/index.php");
+        WebElement searchbox = driver.findElement(By.id("search_query_top"));
+        searchbox.sendKeys("Blouse");
+        searchbox.sendKeys(Keys.ENTER);
+        driver.get("http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=blouse&submit_search=");
+        WebElement image = driver.findElement(By.linkText("Blouse"));
+        image.click();
+        driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
+        WebElement add = driver.findElement(By.id("add_to_cart"));
+        add.click();
         driver.get("http://automationpractice.com/index.php?controller=order");
-        WebElement terms_license = driver.findElement(By.id("uniform.cgv"));
-        terms_license.click();
-        WebElement send = driver.findElement(By.name("processCarrier"));
-        send.click();
+        WebElement checkout= driver.findElement(By.linkText("Proceed to checkout"));
+        checkout.click();
+        driver.get("http://automationpractice.com/index.php?controller=order&step=1");
+        WebElement seguir = driver.findElement(By.name("processAddress"));
+        seguir.click();
     }
 
     // Testeo de una busqueda vacía
@@ -269,5 +297,7 @@ public class SeleniumTest {
         // Se verifica el mensaje de envio correcto
         List<WebElement> notification= driver.findElements(By.xpath("//*[contains(text(),'Your message has been successfully sent to our team.')]"));
         Assertions.assertNotNull(notification);
-    }
+    } 
+   
+    
 }
