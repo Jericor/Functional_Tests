@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -138,6 +140,8 @@ public class SeleniumTest {
         driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
         WebElement add = driver.findElement(By.id("add_to_cart"));
         add.click();
+
+        //Se valida si se añadio correctamente
     }
 
     // Testeo de eliminar un objeto del carrito de compras
@@ -165,6 +169,12 @@ public class SeleniumTest {
         driver.get("http://automationpractice.com/index.php?controller=order");
         WebElement delete= driver.findElement(By.className("cart_quantity_delete"));
         delete.click();
+
+        //Se valida que el elemetno haya sido eliminado, al recargar la pagina y ver que no esta
+        String expected ="http://automationpractice.com/index.php?controller=order" ;
+        Boolean url = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.urlToBe(expected));
+        Assertions.assertTrue(url);
     }
 
     // Testeo para cambiar la talla a M
@@ -181,9 +191,13 @@ public class SeleniumTest {
         driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse+&results=1");
         Select change = new Select(driver.findElement(By.id("group_1")));
         change.selectByValue("2");
+
+        //Validamos que haya cambiado la talla, atrves del valor 
+        WebElement size = driver.findElement(By.id("group_1"));
+        assertEquals("2", size);
     }
 
-    // Testeo de envío del producto y aceptación de los terminos y condiciones
+    // Testeo de seleccionar la direccion del envio del producto, a la direccion pro defecto
     @Test
     @Order(8)
     public void directionShop() {
@@ -211,6 +225,12 @@ public class SeleniumTest {
         driver.get("http://automationpractice.com/index.php?controller=order&step=1");
         WebElement seguir = driver.findElement(By.name("processAddress"));
         seguir.click();
+
+        //Se valida al redireccionar la pagina 
+        String expected ="http://automationpractice.com/index.php?controller=order" ;
+        Boolean url = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.urlToBe(expected));
+        Assertions.assertTrue(url);
     }
 
     // Testeo de una busqueda vacía
