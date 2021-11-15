@@ -1,6 +1,3 @@
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -15,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SeleniumTest {
@@ -130,25 +126,67 @@ public class SeleniumTest {
     @Test
     @Order(5)
     public void addToCart() {
+        // Se dirige a la página principal
         driver.get("http://automationpractice.com/index.php");
-        WebElement searchbox = driver.findElement(By.id("search_query_top"));
-        searchbox.sendKeys("Blouse");
-        searchbox.sendKeys(Keys.ENTER);
-        driver.get("http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=blouse&submit_search=");
+        // Se selecciona el elemento "Blouse"
         WebElement image = driver.findElement(By.linkText("Blouse"));
         image.click();
-        driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
+        // Se presiona el botón de añadir al carrito
         WebElement add = driver.findElement(By.id("add_to_cart"));
         add.click();
 
-        //Se valida si se añadio correctamente
+        // Se verifica el mensaje al añadir al carrito
+        List<WebElement> message= driver.findElements(By.xpath("//*[contains(text(),'Product successfully added to your shopping cart')]"));
+        Assertions.assertNotNull(message);
+    }
+
+    // Testeo de shipping hasta antes del método de pago
+    @Test
+    @Order(6)
+    public void directionShop() {
+        /*DESCOMENTAR EN CASO DE PROBAR EL TEST POR SI SOLO*/
+        /*
+        driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("test@mail.cl");
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("fp30t");
+        WebElement button = driver.findElement(By.id("SubmitLogin"));
+        button.click();
+        driver.get("http://automationpractice.com/index.php");
+        WebElement image = driver.findElement(By.linkText("Blouse"));
+        image.click();
+        WebElement add = driver.findElement(By.id("add_to_cart"));
+        add.click();
+        */
+        // Se dirige a la pagina de pago
+        driver.get("http://automationpractice.com/index.php?controller=order");
+        // Se presiona el botón para seguir con el checkout
+        WebElement checkout= driver.findElement(By.linkText("Proceed to checkout"));
+        checkout.click();
+        // Se presiona el botón para seguir con la dirección por defecto
+        WebElement address = driver.findElement(By.name("processAddress"));
+        address.click();
+        // Se aceptan los terminos de uso
+        WebElement terms = driver.findElement(By.id("cgv"));
+        terms.click();
+        // Se presiona el botón para pasar al shipping
+        WebElement shipping = driver.findElement(By.name("processCarrier"));
+        shipping.click();
+
+        //Se verifica que la pagina se encuentre en el método de pago
+        String pay ="http://automationpractice.com/index.php?controller=order&multi-shipping=" ;
+        Boolean payUrl = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.urlToBe(pay));
+        Assertions.assertTrue(payUrl);
     }
 
     // Testeo de eliminar un objeto del carrito de compras
     @Test
-    @Order(6)
+    @Order(7)
     public void deleteToCart() {
-       WebDriver driver = new FirefoxDriver();
+        /*  DESCOMENTAR AL PROBAR ESTE TEST POR SI SOLO*/
+        /*
         driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
         WebElement email = driver.findElement(By.id("email"));
         email.sendKeys("test@mail.cl");
@@ -157,80 +195,37 @@ public class SeleniumTest {
         WebElement button = driver.findElement(By.id("SubmitLogin"));
         button.click();
         driver.get("http://automationpractice.com/index.php");
-        WebElement searchbox = driver.findElement(By.id("search_query_top"));
-        searchbox.sendKeys("Blouse");
-        searchbox.sendKeys(Keys.ENTER);
-        driver.get("http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=blouse&submit_search=");
         WebElement image = driver.findElement(By.linkText("Blouse"));
         image.click();
-        driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
         WebElement add = driver.findElement(By.id("add_to_cart"));
         add.click();
+        */
+        // Se accede a la orden y se elimina del carrito
         driver.get("http://automationpractice.com/index.php?controller=order");
         WebElement delete= driver.findElement(By.className("cart_quantity_delete"));
         delete.click();
 
-        //Se valida que el elemetno haya sido eliminado, al recargar la pagina y ver que no esta
-        String expected ="http://automationpractice.com/index.php?controller=order" ;
-        Boolean url = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.urlToBe(expected));
-        Assertions.assertTrue(url);
+        // Se verifica el mensaje indicando que no hay objetos en el carrito
+        List<WebElement> message= driver.findElements(By.xpath("//*[contains(text(),'Your shopping cart is empty.')]"));
+        Assertions.assertNotNull(message);
     }
 
-    // Testeo para cambiar la talla a M
+    // Testeo para cambiar un producto a talla M
     @Test
-    @Order(7)
+    @Order(8)
     public void changeSize() {
+        // Se dirige a la página principal
         driver.get("http://automationpractice.com/index.php");
-        WebElement searchbox = driver.findElement(By.id("search_query_top"));
-        searchbox.sendKeys("Blouse");
-        searchbox.sendKeys(Keys.ENTER);
-        driver.get("http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=blouse&submit_search=");
+        // Se busca el producto Blouse
         WebElement image = driver.findElement(By.linkText("Blouse"));
         image.click();
-        driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse+&results=1");
+        // Se cambia la talla a M
         Select change = new Select(driver.findElement(By.id("group_1")));
         change.selectByValue("2");
 
-        //Validamos que haya cambiado la talla, atrves del valor 
-        WebElement size = driver.findElement(By.id("group_1"));
+        // Se verifica el cambio de talla
+        String size = driver.findElement(By.id("group_1")).getAttribute("value");
         assertEquals("2", size);
-    }
-
-    // Testeo de seleccionar la direccion del envio del producto, a la direccion pro defecto
-    @Test
-    @Order(8)
-    public void directionShop() {
-        WebDriver driver = new FirefoxDriver();
-        driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
-        WebElement email = driver.findElement(By.id("email"));
-        email.sendKeys("test@mail.cl");
-        WebElement password = driver.findElement(By.id("passwd"));
-        password.sendKeys("fp30t");
-        WebElement button = driver.findElement(By.id("SubmitLogin"));
-        button.click();
-        driver.get("http://automationpractice.com/index.php");
-        WebElement searchbox = driver.findElement(By.id("search_query_top"));
-        searchbox.sendKeys("Blouse");
-        searchbox.sendKeys(Keys.ENTER);
-        driver.get("http://automationpractice.com/index.php?controller=search&orderby=position&orderway=desc&search_query=blouse&submit_search=");
-        WebElement image = driver.findElement(By.linkText("Blouse"));
-        image.click();
-        driver.get("http://automationpractice.com/index.php?id_product=2&controller=product&search_query=blouse&results=1");
-        WebElement add = driver.findElement(By.id("add_to_cart"));
-        add.click();
-        driver.get("http://automationpractice.com/index.php?controller=order");
-        WebElement checkout= driver.findElement(By.linkText("Proceed to checkout"));
-        checkout.click();
-        driver.get("http://automationpractice.com/index.php?controller=order&step=1");
-        WebElement seguir = driver.findElement(By.name("processAddress"));
-        seguir.click();
-
-        //Se valida al redireccionar la pagina 
-        String expected ="http://automationpractice.com/index.php?controller=order" ;
-        Boolean url = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.urlToBe(expected));
-        Assertions.assertTrue(url);
     }
 
     // Testeo de una busqueda vacía
@@ -285,6 +280,7 @@ public class SeleniumTest {
         subject.selectByValue("2");
         // Se ingresa el mail de prueba
         WebElement email = driver.findElement(By.id("email"));
+        email.clear();
         email.sendKeys("test@mail.cl");
         // Se presiona el botón de enviar mensaje
         WebElement button = driver.findElement(By.id("submitMessage"));
@@ -306,6 +302,7 @@ public class SeleniumTest {
         subject.selectByValue("2");
         // Se ingresa el mail de prueba
         WebElement email = driver.findElement(By.id("email"));
+        email.clear();
         email.sendKeys("test@mail.cl");
         // Se ingresa el mensaje de prueba
         WebElement message = driver.findElement(By.id("message"));
